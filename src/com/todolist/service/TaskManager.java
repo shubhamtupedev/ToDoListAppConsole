@@ -17,37 +17,41 @@ public class TaskManager {
         boolean isValidationFailed = false;
 
         if (StringUtils.isNullOrEmpty(title)) {
-            System.err.println("please enter valid title, it should not be blank.");
+            System.out.println("please enter valid title, it should not be blank.");
             isValidationFailed = true;
         }
 
         if (StringUtils.isNullOrEmpty(description)) {
-            System.err.println("please enter valid description, it should not be blank.");
+
+            System.out.println("please enter valid description, it should not be blank.");
             isValidationFailed = true;
         }
 
         if (StringUtils.isNullOrEmpty(dueDate)) {
-            System.err.println("please enter valid due date, it should not be blank.");
+
+            System.out.println("please enter valid due date, it should not be blank.");
             isValidationFailed = true;
         }
 
         if (title.length() > 50) {
-            System.err.println("please enter valid title, it should not be more than 50 characters.");
+
+            System.out.println("please enter valid title, it should not be more than 50 characters.");
             isValidationFailed = true;
         }
 
-        if (description.length() > 50) {
-            System.err.println("please enter valid title, it should not be more than 50 characters.");
+        if (description.length() > 200) {
+
+            System.out.println("please enter valid description, it should not be more than 50 characters.");
             isValidationFailed = true;
         }
 
         if (!StringUtils.isNullOrEmpty(dueDate) && !DateUtils.isValidDate(dueDate)) {
-            System.err.println("please enter valid date, it should be in this format {YYYY-MM-DD}.");
+
+            System.out.println("please enter valid date, it should be in this format {YYYY-MM-DD}.");
             isValidationFailed = true;
         }
 
         if (isValidationFailed) {
-            System.out.println("\n");
             return;
         }
 
@@ -59,7 +63,7 @@ public class TaskManager {
 
     public void readTask() {
         if (taskList.isEmpty()) {
-            System.err.println("No record found.");
+            System.out.println("No record found.");
             return;
         }
         taskList.forEach(System.out::println);
@@ -78,12 +82,89 @@ public class TaskManager {
 
     public void removeTask(int taskId) {
         if (taskList.isEmpty()) {
-            System.err.println("No Records found");
+            System.out.println("No Records found");
             return;
         }
 
         taskList.removeIf(task -> task.getId() == taskId);
         System.out.println("task removed successfully.");
+    }
+
+    public void updateTask(int taskId, String title, String description, String dueDate) {
+        boolean isValidationFailed = false;
+        if (taskList.isEmpty()) {
+            System.out.println("No records found.");
+            return;
+        }
+
+        if (StringUtils.isNullOrEmpty(title)) {
+            System.out.println("please enter valid title, it should not be blank.");
+            isValidationFailed = true;
+        }
+
+        if (StringUtils.isNullOrEmpty(description)) {
+            System.out.println("please enter valid description, it should not be blank.");
+            isValidationFailed = true;
+        }
+
+        if (StringUtils.isNullOrEmpty(dueDate)) {
+            System.out.println("please enter valid due date, it should not be blank.");
+            isValidationFailed = true;
+        }
+
+        if (title.length() > 50) {
+            System.out.println("please enter valid title, it should not be more than 50 characters.");
+            isValidationFailed = true;
+        }
+
+        if (description.length() > 200) {
+            System.out.println("please enter valid description, it should not be more than 50 characters.");
+            isValidationFailed = true;
+        }
+
+        if (!StringUtils.isNullOrEmpty(dueDate) && !DateUtils.isValidDate(dueDate)) {
+            System.out.println("please enter valid date, it should be in this format {YYYY-MM-DD}.");
+            isValidationFailed = true;
+        }
+
+        if (isValidationFailed) {
+            System.out.println("\n");
+            return;
+        }
+
+        taskList.removeIf(task -> task.getId() == taskId);
+        LocalDate localDueDate = LocalDate.parse(dueDate);
+        taskList.add(new Task(taskId, title, description, localDueDate));
+        System.out.println("task updated successfully.");
+    }
+
+    public void listPendingTask() {
+        if (taskList.isEmpty()) {
+            System.out.println("No records found.");
+            return;
+        }
+
+        List<Task> pendingTaskList = taskList.stream().filter(task -> !task.isCompleted()).toList();
+        if (pendingTaskList.isEmpty()) {
+            System.out.println("no record found");
+            return;
+        }
+
+        pendingTaskList.forEach(System.out::println);
+    }
+
+    public void listCompletedTask() {
+        if (taskList.isEmpty()) {
+            System.out.println("No records found.");
+            return;
+        }
+
+        List<Task> completedTaskList = taskList.stream().filter(Task::isCompleted).toList();
+        if (completedTaskList.isEmpty()) {
+            System.out.println("no record found.");
+            return;
+        }
+        completedTaskList.forEach(System.out::println);
     }
 
 

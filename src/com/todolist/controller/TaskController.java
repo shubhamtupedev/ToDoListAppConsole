@@ -9,14 +9,21 @@ public class TaskController {
         Scanner scanner = new Scanner(System.in);
         TaskManager taskManager = new TaskManager();
         int choice;
+        String title;
+        String description;
+        String dueDate;
+        int taskId;
 
         while (true) {
             System.out.println("\n=== TO-DO LIST ===");
             System.out.println("1. Add Task");
-            System.out.println("2. List Tasks");
-            System.out.println("3. Mark Task as Done");
-            System.out.println("4. Remove Task");
-            System.out.println("5. Exit");
+            System.out.println("2. Update Task");
+            System.out.println("3. List Tasks");
+            System.out.println("4. Mark Task as Done");
+            System.out.println("5. List Pending Tasks");
+            System.out.println("6. List Completed Tasks");
+            System.out.println("7. Remove Task");
+            System.out.println("8. Exit");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
             scanner.nextLine();
@@ -24,27 +31,44 @@ public class TaskController {
             switch (choice) {
                 case 1:
                     System.out.println("please enter title");
-                    String title = scanner.nextLine();
+                    title = scanner.nextLine();
                     System.out.println("please enter description");
-                    String description = scanner.nextLine();
+                    description = scanner.nextLine();
                     System.out.println("please enter due date format should be example: 1997-05-25");
-                    String dueDate = scanner.nextLine();
+                    dueDate = scanner.nextLine();
                     taskManager.addTask(title, description, dueDate);
                     break;
                 case 2:
-                    taskManager.readTask();
-                    break;
+                    System.out.println("please enter task id that you want to update");
+                    taskId = scanner.nextInt();
+                    scanner.nextLine();
+                    System.out.println("please enter title");
+                    title = scanner.nextLine();
+                    System.out.println("please enter description");
+                    description = scanner.nextLine();
+                    System.out.println("please enter due date format should be example: 1997-05-25");
+                    dueDate = scanner.nextLine();
+                    taskManager.updateTask(taskId, title, description, dueDate);
                 case 3:
-                    System.out.println("please enter task id");
-                    int taskId = scanner.nextInt();
-                    taskManager.markTaskDone(taskId);
+                    taskManager.readTask();
                     break;
                 case 4:
                     System.out.println("please enter task id");
-                    int taskid = scanner.nextInt();
-                    taskManager.removeTask(taskid);
+                    taskId = scanner.nextInt();
+                    taskManager.markTaskDone(taskId);
                     break;
                 case 5:
+                    taskManager.listPendingTask();
+                    break;
+                case 6:
+                    taskManager.listCompletedTask();
+                    break;
+                case 7:
+                    System.out.println("please enter task id");
+                    taskId = scanner.nextInt();
+                    taskManager.removeTask(taskId);
+                    break;
+                case 8:
                     System.out.println("👋 Goodbye!");
                     System.exit(0);
                 default:
