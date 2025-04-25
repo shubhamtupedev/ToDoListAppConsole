@@ -10,9 +10,6 @@ public class Task {
     private LocalDate dueDate;
     private boolean isCompleted;
 
-    public Task() {
-    }
-
     public Task(int id, String title, String description, LocalDate dueDate) {
         this.id = id;
         this.title = title;
